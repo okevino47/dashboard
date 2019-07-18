@@ -1,0 +1,96 @@
+<!-- views/profile.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Node Authentication</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+</head>
+<body>
+
+<nav class="col-offset-12 navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/profile">My Dashboard</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/profile">Home</a></li>
+            <li><a href="/index">Dashboard</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="page-header text-center">
+        <h1><span class="glyphicon glyphicon-user" style="color: lightseagreen"></span>&nbsp;<%= user.local.email %></h1>
+        <a href="/logout" class="btn btn-info btn-sm">Logout</a>
+    </div>
+
+    <div class="row" style="display: inline-block; padding-left: 40%">
+
+        <!-- LOCAL INFORMATION -->
+            <div class="well " style="text-align: center;">
+                <h3><span class="fa fa-user"></span> Profil information</h3>
+            </div>
+
+    </div>
+    <div class="well" style="display: block">
+        <p>
+            <strong>id</strong>: <%= user.facebook.id %><%= user._id %><%= user.twitter.id %><br>
+            <strong>token</strong>: <%= user.facebook.token %><%= user.twitter.token %><br>
+            <strong>name</strong>: <%= user.facebook.name %><%= user.twitter.username %><%= user.twitter.displayName %><br>
+            <strong>email</strong>: <%= user.local.email %><br>
+            <strong>password</strong>: <%= user.local.password %><br>
+        </p>
+    </div>
+
+</div>
+
+<!-- Services & buttons -->
+<ul>
+    <% for(var i=0; i<services.length; i++) { %>
+        <li>
+            <%= services[i].name %> : <input class="btn btn-default" id="<%= services[i].name %>" type="submit" data="subscribe_<%= services[i].name %>" value="S'abonner">
+        </li>
+    <% } %>
+</ul>
+
+
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    console.log('Client-side code running');
+    <% for(var i=0; i<services.length; i++) { %>
+    const <%= services[i].name %> = document.getElementById("<%= services[i].name %>");
+    <%= services[i].name %>.addEventListener('click', function(e) {
+        console.log('button was clicked');
+        var data = {};
+        data.content = $(this).attr("data"); // GET THE DATA IN ATTR
+        data.params = $(this).attr("data"); // GET THE DATA IN ATTR
+        e.preventDefault();
+        if ($(this).val() == "S'abonner"){
+            $(this).val("Se désinscrire");
+            $(this).attr("data", "unsubscribe_<%= services[i].name %>");
+        } else if ($(this).val() == "Se désinscrire"){
+            $(this).val("S'abonner");
+            $(this).attr("data", "subscribe_<%= services[i].name %>");
+        }
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            url: 'http://localhost:8080/profile',
+            success: function(data) {
+                console.log('success');
+            },
+            error: function(data) {
+                console.log('Error');
+            }
+        });
+
+    });
+
+    <% } %>
+</script>

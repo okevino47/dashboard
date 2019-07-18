@@ -1,0 +1,299 @@
+<!-- views/profile.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Node Authentication</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous"> <!-- load fontawesome -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.core.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.fp.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+    <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.4.0/gridstack.min.js'></script>
+    <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.4.0/gridstack.jQueryUI.min.js'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.4.0/gridstack.min.css" />
+
+</head>
+<body>
+
+<nav class="col-offset-12 navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/profile">My Dashboard</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/profile">Home</a></li>
+            <li class="active"><a href="/index">Dashboard</a></li>
+        </ul>
+    </div>
+</nav>
+
+<button class="btn btn-success" id="new_widget" value="new_widget" href="#" style="margin: 1% 0% 1% 50%; -webkit-box-shadow: 18px 18px 21px -8px rgba(0,0,0,0.71);
+-moz-box-shadow: 18px 18px 21px -8px rgba(0,0,0,0.71); box-shadow: 18px 18px 21px -8px rgba(0,0,0,0.71);">Add widget</button>
+
+<div class="container" style="background-color: grey; border-radius: 8px; padding: 10px; box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.75)">
+
+
+
+
+    <div class="grid-stack">
+             <% var count = 0;%>
+            <% for(var i=0; i<services.length; i++) { %>
+
+
+                        <% for(var j=0; j<services[i].widgets.length; j++) { %>
+
+                                <div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="4" data-gs-height="2" >
+                                    <div class="grid-stack-item-content" style="-webkit-box-shadow: 10px 21px 26px -1px rgba(0,0,0,0.71); -moz-box-shadow: 10px 21px 26px -1px rgba(0,0,0,0.71);box-shadow: 10px 21px 26px -1px rgba(0,0,0,0.71); background-color: darkslategrey;">
+                                            <div class="btn-group" role="group" aria-label="...">
+                                                    <button class="btn btn-success add_widget" value="add_widget" href="#" style="margin: auto; padding: 10px; display: block; position: relative">
+                                                        <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                                    <button class="btn btn-danger del_widget" value="del_widget" href="#" style="margin: auto; padding: 10px; display: block; position: relative">
+                                                        <span class="glyphicon glyphicon-trash"></span>
+                                                    </button>
+                                            </div>
+
+                                        <h3><%= services[i].widgets[j].name %> : </h3>
+                                        <p><%= print[count++] %> </p>
+
+                                    </div>
+                                </div>
+
+
+                        <% } %>
+
+            <% } %>
+
+    <!--modal grouping the different widget-->
+    <div id="modal" style="display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: darkgray; background-color: rgba(0,0,0,0.4);">
+        <div class="modal_content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; background-color: darkslategrey">
+                <span class="close" style="color: #aaa; float: right; font-size: 28px; font-weight: bold;">&times;</span>
+            <button class="btn btn-default" id="youtube" value="youtube" href="#">
+                <img itemprop="logo" title="Youtube vid&eacute;o" alt="Youtube vid&eacute;o" width="150" height="45" src="https://www.e-enfance.org/wp-content/uploads/2017/01/YouTube-logo-full_color-770x400.png" style="margin: 2px"></button>
+            </button>
+            <!--<button class="btn btn-default" id="pornhub" value="pornhub" href="#" style="background: #000; font-weight: 600;">
+                <img itemprop="logo" title="Pornhub" alt="Pornhub Porn Videos" width="150" height="45" src="https://ci.phncdn.com/www-static/images/pornhub_logo_straight.png?cache=2018101702" style="margin: 2px">
+            </button>-->
+            <button class="btn btn-default" id="weather" value="weather" href="#">
+                <img itemprop="logo" title="M&eacute;t&eacute;o" alt="m&eacute;t&eacute;o" width="150" height="45" src="//upload.wikimedia.org/wikipedia/fr/7/72/La_Cha%C3%AEne_M%C3%A9t%C3%A9o.png" style="margin: 2px">
+            </button>
+            <!--<button class="btn btn-default" id="nasa" value="nasa" href="#">
+                <img itemprop="logo" title="Nasa" alt="Nasa" width="150" height="45" src="https://i1.wp.com/www.grapheine.com/wp-content/uploads/2013/10/US-NASA-Seal-logo.jpg?quality=90&strip=all&ssl=1" style="margin: 2px">
+            </button>
+            <button class="btn btn-default" id="twitter" value="twitter" href="#">
+                <img itemprop="logo" title="Twitter" alt="Twitter" width="150" height="45" src="http://geeko.lesoir.be/wp-content/uploads/sites/58/2017/04/08446114-photo-twitter-logo.jpg" style="margin: 2px">
+            </button>-->
+        </div>
+    </div>
+
+    <!--modal creation for youtube choice-->
+    <div id="modal_youtube" style="display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: darkgray; background-color: rgba(0,0,0,0.4);">
+        <div class="modal_content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; background-color: darkcyan">
+            <span class="close" style="color: #aaa; float: right; font-size: 28px; font-weight: bold;">&times;</span>
+            <div class="btn btn-default" id="youtube" value="youtube" href="#">
+                <form id="youtube_like_form" action="/" method="post">
+                    <b>Enter the video ID to see the number of likes :</b><br>
+                    <input type="text" id="youtube_like_param">
+                    <button type="button" class="btn btn-info" id="subscribe_youtube_like">Submit</button>
+                </form>
+        </div>
+            <div class="btn btn-default" id="youtube" value="youtube" href="#">
+                <form id="youtube_view_form">
+                    <b>Enter the video ID to see the number of views :</b><br>
+                    <input type="text" id="youtube_view_param">
+                    <button type="button" class="btn btn-info" id="subscribe_youtube_view">Submit</button>
+                </form>
+        </div>
+            <div class="btn btn-default" id="youtube" value="youtube" href="#">
+                <form id="youtube_comment_form">
+                    <b>Enter the video ID to see the number of comments :</b><br>
+                    <input type="text" name="channel_choice" id="youtube_comment_param">
+                    <button type="button" class="btn btn-info" id="subscribe_youtube_comment">Submit</button>
+                </form>
+        </div>
+        <div class="btn btn-default" id="youtube" value="youtube" href="#">
+            <form id="youtube_dislike_form">
+                <b>Enter the video ID to see the number of dislikes :</b><br>
+                <input type="text" name="channel_choice" id="youtube_dislike_param">
+                <button type="button" class="btn btn-info" id="subscribe_youtube_dislike">Submit</button>
+            </form>
+    </div>
+        </div>
+    </div>
+
+    <div id="modal_weather" style="display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: darkgray; background-color: rgba(0,0,0,0.4);">
+        <div class="modal_content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; background-color: darkcyan">
+            <span class="close" style="color: #aaa; float: right; font-size: 28px; font-weight: bold;">&times;</span>
+            <div class="btn btn-default" id="weather" value="weather" href="#">
+                <form id="weather_temp_form" action="/" method="post">
+                    <b>Enter the city to see the temperature :</b><br>
+                    <input type="text" id="weather_temp_param">
+                    <button type="button" class="btn btn-info" id="subscribe_weather_temp">Submit</button>
+                </form>
+        </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        $(function () {
+            var options = {
+                cellHeight: 80,
+                verticalMargin: 10,
+                removable: true,
+                removeTimeout: 0,
+            };
+            $('.grid-stack').gridstack(options);
+        });
+
+        $('#new_widget').click(function(){
+            var el = $.parseHTML("<div class=\"grid-stack-item\" data-gs-x=\"4\" data-gs-y=\"4\" data-gs-width=\"4\" data-gs-height=\"4\"><div class=\"grid-stack-item-content\" style=\"-webkit-box-shadow: 10px 21px 26px -1px rgba(0,0,0,0.71); -moz-box-shadow: 10px 21px 26px -1px rgba(0,0,0,0.71);box-shadow: 10px 21px 26px -1px rgba(0,0,0,0.71); background-color: darkslategrey;\"><button class=\"btn btn-success add_widget\" value=\"add_widget\" href=\"#\" style=\"margin: auto; padding: 10px; display: block; position: relative\"><span class=\"glyphicon glyphicon-plus\"></span></button></div>");
+            var grids = $('.grid-stack').data('gridstack');
+            grids.addWidget(el, 1, 1, 4, 1, true);
+        });
+
+        // first modal pop in creation and destruction (+ destruction of other modals)
+        $('.grid-stack').on("click", ".add_widget", function () {
+            $('#modal').css('display', 'block');
+        })
+        $('.modal_content').on("click", "span", function () {
+            $('#modal').css('display', 'none');
+            $('#modal_youtube').css('display', 'none');
+            $('#modal_weather').css('display', 'none');
+        })
+
+        // youtube modal pop in creation
+        $('.modal_content').on("click", "#youtube", function () {
+            $('#modal_youtube').css('display', 'block');
+        })
+
+        $('.modal_content').on("click", "#weather", function () {
+            $('#modal_weather').css('display', 'block');
+        })
+
+// WIDGET CREATION
+
+
+var subscribe_weather_temp = document.getElementById("subscribe_weather_temp");
+ subscribe_weather_temp.addEventListener('click', function(e) {
+         e.preventDefault();
+         var data = {};
+         var valParam = $('#weather_temp_param').val()
+         data.param = [valParam, 0]; // GET THE DATA IN ATTR
+         data.content = "subscribe_weather_temp"; // GET THE DATA IN ATTR
+         console.log("SUBMITED : ", data); // GET THE DATA IN ATTR
+$.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: 'http://localhost:8080/',
+        success: function(data) {
+            console.log('success');
+        },
+        error: function(data) {
+            console.log('Error');
+        }
+    });
+
+});
+
+
+var subscribe_youtube_like = document.getElementById("subscribe_youtube_like");
+ subscribe_youtube_like.addEventListener('click', function(e) {
+         e.preventDefault();
+         var data = {};
+         var valParam = $('#youtube_like_param').val()
+         data.param = [valParam, 0]; // GET THE DATA IN ATTR
+         data.content = "subscribe_youtube_like"; // GET THE DATA IN ATTR
+         console.log("SUBMITED : ", data); // GET THE DATA IN ATTR
+$.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: 'http://localhost:8080/',
+        success: function(data) {
+            console.log('success');
+        },
+        error: function(data) {
+            console.log('Error');
+        }
+    });
+
+});
+
+var subscribe_youtube_dislike = document.getElementById("subscribe_youtube_dislike");
+ subscribe_youtube_dislike.addEventListener('click', function(e) {
+         e.preventDefault();
+         var data = {};
+         var valParam = $('#youtube_dislike_param').val()
+         data.param = [valParam, 0]; // GET THE DATA IN ATTR
+         data.content = "subscribe_youtube_dislike"; // GET THE DATA IN ATTR
+         console.log("SUBMITED : ", data); // GET THE DATA IN ATTR
+$.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: 'http://localhost:8080/',
+        success: function(data) {
+            console.log('success');
+        },
+        error: function(data) {
+            console.log('Error');
+        }
+    });
+
+});
+
+var subscribe_youtube_comment = document.getElementById("subscribe_youtube_comment");
+ subscribe_youtube_comment.addEventListener('click', function(e) {
+         e.preventDefault();
+         var data = {};
+         var valParam = $('#youtube_comment_param').val()
+         data.param = [valParam, 0]; // GET THE DATA IN ATTR
+         data.content = "subscribe_youtube_comment"; // GET THE DATA IN ATTR
+         console.log("SUBMITED : ", data); // GET THE DATA IN ATTR
+$.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: 'http://localhost:8080/',
+        success: function(data) {
+            console.log('success');
+        },
+        error: function(data) {
+            console.log('Error');
+        }
+    });
+
+});
+var subscribe_youtube_view = document.getElementById("subscribe_youtube_view");
+ subscribe_youtube_view.addEventListener('click', function(e) {
+         e.preventDefault();
+         var data = {};
+         var valParam = $('#youtube_view_param').val()
+         data.param = [valParam, 0]; // GET THE DATA IN ATTR
+         data.content = "subscribe_youtube_view"; // GET THE DATA IN ATTR
+         console.log("SUBMITED : ", data); // GET THE DATA IN ATTR
+$.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: 'http://localhost:8080/',
+        success: function(data) {
+            console.log('success');
+        },
+        error: function(data) {
+            console.log('Error');
+        }
+    });
+
+});
+
+    </script>
+
+</div>
+</body>
+</html>
